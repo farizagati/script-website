@@ -1,0 +1,23 @@
+name: Katalon Studio Test (Develop)
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.5.0
+        with:
+          repository: farizagati/katalon-web-oto
+          
+      - name: Katalon Studio Github Action
+        uses: katalon-studio/katalon-studio-github-action@v3.0
+        with:
+          version: '8.6.8'
+          projectPath: '${{ github.workspace }}'
+          args: '-noSplash -browserType="Chrome" -retry=0 -testSuitePath="Test Suites/TestSuite/TS_Login" -apiKey= ${{ secrets.KATALON_API_KEY }} --config -webui.autoUpdateDrivers=true'
